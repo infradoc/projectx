@@ -22,10 +22,9 @@ jobs:
     - name: SonarQube Scan
       id: sonarqube
       uses: SonarSource/sonarqube-scan-action@master
-      with:
-        args: >
-          -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }}
-          -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
     - name: Fail if quality gate failed
       if: steps.sonarqube.outcome == 'failure'
       run: exit 1
