@@ -1,4 +1,3 @@
-
 name: Node.js CI/CD Pipeline
 
 on:
@@ -67,3 +66,4 @@ jobs:
         amplify init --amplify "{ \"envName\": \"prod\" }" --yes
         amplify checkout env prod
         amplify push --yes
+
