@@ -21,7 +21,7 @@ jobs:
       run: npm test
     - name: SonarQube Scan
       id: sonarqube
-      uses: SonarSource/sonarqube-scan-action@master
+      uses: sonarsource/sonarqube-scan-action@master
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
@@ -44,8 +44,8 @@ jobs:
     - name: Deploy to AWS Amplify (Dev)
       run: |
         npm install -g @aws-amplify/cli
-        amplify init --amplify "{ \"envName\": \"devamplify01\" }" --yes
-        amplify checkout env devamplify01
+        amplify init --amplify "{ \"envName\": \"dev\" }" --yes
+        amplify checkout env dev
         amplify push --yes
 
   deploy-to-prod:
@@ -63,6 +63,6 @@ jobs:
     - name: Deploy to AWS Amplify (Prod)
       run: |
         npm install -g @aws-amplify/cli
-        amplify init --amplify "{ \"envName\": \"prodamplify01\" }" --yes
-        amplify checkout env prodamplify01
+        amplify init --amplify "{ \"envName\": \"prod\" }" --yes
+        amplify checkout env prod
         amplify push --yes
