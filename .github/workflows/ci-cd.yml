@@ -67,3 +67,4 @@ jobs:
         amplify init --amplify "{ \"envName\": \"prod\" }" --yes
         amplify checkout env prod
         amplify push --yes
+        
