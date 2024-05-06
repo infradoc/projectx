@@ -16,7 +16,7 @@
             "AuthRoleName": "projectx-authRole",
             "UnauthRoleName": "projectx-unauthRole",
             "Region": "us-east-1",
-            "DeploymentBucketName": "amplify-projectx-amplify-deployment-bucket01"
+            "DeploymentBucketName": "projectx-amplify-deployment-bucket01"
         }
     }
 }
