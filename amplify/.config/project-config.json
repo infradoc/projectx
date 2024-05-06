@@ -1,0 +1,22 @@
+{
+    "projectName": "projectx",
+    "version": "3.0",
+    "frontend": "javascript",
+    "javascript": {
+        "framework": "none",
+        "config": {
+            "SourceDir": "src",
+            "DistributionDir": "dist",
+            "BuildCommand": "echo 'No build needed'",
+            "StartCommand": "node src/app.js"
+        }
+    },
+    "providers": {
+        "awscloudformation": {
+            "AuthRoleName": "projectx-authRole",
+            "UnauthRoleName": "projectx-unauthRole",
+            "Region": "us-east-1",
+            "DeploymentBucketName": "amplify-projectx-amplify-deployment-bucket01"
+        }
+    }
+}

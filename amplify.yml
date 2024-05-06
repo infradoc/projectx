@@ -1,0 +1,15 @@
+version: 1
+frontend:
+  phases:
+    # Commands to run in the build phase
+    preBuild:
+      commands:
+        - npm install
+    build:
+      commands:
+        - npm run build
+  artifacts:
+    # Directory where Amplify should look for build artifacts to deploy
+    baseDirectory: dist
+    files:
+      - '**/*'

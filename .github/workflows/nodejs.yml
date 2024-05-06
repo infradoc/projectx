@@ -1,0 +1,98 @@
+name: Node.js CI/CD Pipeline
+
+on:
+  push:
+    branches: [ develop, main ]
+  pull_request:
+    branches: [ develop ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install dependencies
+        run: npm install
+      - name: Run tests
+        run: npm test
+      - name: Build the project
+        run: npm run build
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: website
+          path: '**/*'
+
+  scan:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: website
+          path: '**/*'
+      - name: Clear SonarScanner cache
+        run: rm -rf /opt/sonar-scanner/.sonar/cache
+      - name: SonarQube Scan with Debug Logging
+        uses: sonarsource/sonarqube-scan-action@master
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+        with:
+          args: -X
+      - name: Set scan result and check status
+        id: set-scan-result
+        run: |
+          if [ $? -eq 0 ]; then
+            echo "scan_success=true" >> $GITHUB_ENV
+          else
+            echo "scan_success=false" >> $GITHUB_ENV
+            exit 1
+          fi
+      - name: Print scan result
+        run: echo "Scan success:" $scan_success
+
+
+  deploy-to-dev:
+    needs: scan
+    runs-on: ubuntu-latest
+    environment: dev
+    if: ${{ github.ref == 'refs/heads/develop' }}  # Check for develop branch
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.REGION }}
+      - name: Deploy to AWS Amplify (Dev)
+        run: ./scripts/deploy.sh
+        env:
+          AMPLIFY_ENV: dev
+          AMPLIFY_APP_ID: ${{ secrets.AMPLIFY_APP_ID }}
+
+  deploy-to-prod:
+    needs: scan  
+    runs-on: ubuntu-latest
+    environment: prod
+    if: ${{ github.ref == 'refs/heads/main' }}  # Check for main branch
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.REGION }}
+      - name: Deploy to AWS Amplify (Prod)
+        run: ./scripts/deploy.sh
+        env:
+          AMPLIFY_ENV: prod
+          AMPLIFY_APP_ID: ${{ secrets.AMPLIFY_APP_ID }}
