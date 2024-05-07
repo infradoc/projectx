@@ -9,19 +9,19 @@ if ! command -v amplify &> /dev/null; then
 fi
 
 # Initialize AWS Amplify if not already initialized
-if [ ! -d "amplify/.config" ]; then
-    echo "Initializing AWS Amplify..."
-    amplify init --amplify "{ \"envName\": \"$AMPLIFY_ENV\", \"appId\": \"$AMPLIFY_APP_ID\" }" --yes
-else
-    echo "AWS Amplify is already initialized."
-    echo "Ensuring the environment is in sync..."
-    amplify pull --appId "$AMPLIFY_APP_ID" --envName "$AMPLIFY_ENV" --yes
-   # amplify pull --appId "{ \"envName\": \"$AMPLIFY_ENV\", \"appId\": \"$AMPLIFY_APP_ID\" }" --yes
-fi
+# if [ ! -d "amplify/.config" ]; then
+#     echo "Initializing AWS Amplify..."
+#     amplify init --amplify "{ \"envName\": \"$AMPLIFY_ENV\", \"appId\": \"$AMPLIFY_APP_ID\" }" --yes
+# else
+#     echo "AWS Amplify is already initialized."
+#     echo "Ensuring the environment is in sync..."
+#     amplify pull --appId "$AMPLIFY_APP_ID" --envName "$AMPLIFY_ENV" --yes
+#    # amplify pull --appId "{ \"envName\": \"$AMPLIFY_ENV\", \"appId\": \"$AMPLIFY_APP_ID\" }" --yes
+# fi
 
 # Deploy changes to the cloud
 echo "Deploying changes to the cloud..."
-if amplify push --yes; then
+if amplify push  --appId "{ \"envName\": \"$AMPLIFY_ENV\", \"appId\": \"$AMPLIFY_APP_ID\" }" --yes; then
     echo "Deployment completed successfully."
 else
     echo "Deployment failed. See details above."
