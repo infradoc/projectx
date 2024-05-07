@@ -21,7 +21,7 @@ fi
 
 # Deploy changes to the cloud
 echo "Deploying changes to the cloud..."
-if amplify push  --appId "{ \"envName\": \"$AMPLIFY_ENV\", \"appId\": \"$AMPLIFY_APP_ID\" }" --yes; then
+if amplify push --appId "$AMPLIFY_APP_ID" --envName "$AMPLIFY_ENV" --yes; then
     echo "Deployment completed successfully."
 else
     echo "Deployment failed. See details above."
