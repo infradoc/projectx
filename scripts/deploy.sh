@@ -15,8 +15,8 @@ if [ ! -d "amplify/.config" ]; then
 else
     echo "AWS Amplify is already initialized."
     echo "Ensuring the environment is in sync..."
-   # amplify pull --appId $AMPLIFY_APP_ID --envName $AMPLIFY_ENV --yes
-    amplify pull --appId "{ \"envName\": \"$AMPLIFY_ENV\", \"appId\": \"$AMPLIFY_APP_ID\" }" --yes
+    amplify pull --appId "{ \"appId\": \"$AMPLIFY_APP_ID\" }" --envName "{ \"envName\": \"$AMPLIFY_ENV\" }" --yes
+   # amplify pull --appId "{ \"envName\": \"$AMPLIFY_ENV\", \"appId\": \"$AMPLIFY_APP_ID\" }" --yes
 fi
 
 # Deploy changes to the cloud
