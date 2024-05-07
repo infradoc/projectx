@@ -75,7 +75,7 @@ jobs:
       - name: Set execute permission for deploy.sh
         run: chmod +x ./scripts/deploy.sh
       - name: Deploy to AWS Amplify (Dev)
-        run: ./scripts/deploy.sh
+        run: ./deploy.sh
         env:
           AMPLIFY_ENV: dev
           AMPLIFY_APP_ID: ${{ secrets.AMPLIFY_APP_ID }}
@@ -96,7 +96,7 @@ jobs:
       - name: Set execute permission for deploy.sh
         run: chmod +x ./scripts/deploy.sh
       - name: Deploy to AWS Amplify (Prod)
-        run: ./scripts/deploy.sh
+        run: ./deploy.sh
         env:
           AMPLIFY_ENV: prod
           AMPLIFY_APP_ID: ${{ secrets.AMPLIFY_APP_ID }}
