@@ -20,10 +20,10 @@ fi
 # fi
 
 
-Initialize AWS Amplify if not already initialized
+# Initialize AWS Amplify if not already initialized
 if [ ! -d "amplify/.config" ]; then
     echo "AWS Amplify is not initialized. Initializing..."
-    amplify init --amplify @envName=$AMPLIFY_ENV --yes
+    amplify init --amplify "{ \"envName\": \"$AMPLIFY_ENV\" }" --yes
 fi
 
 
