@@ -72,10 +72,12 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.REGION }}
+      - name: List directory contents
+        run: ls -la
       - name: Set execute permission for deploy.sh
-        run: chmod +x deploy.sh
+        run: chmod +x ./deploy.sh
       - name: Deploy to AWS Amplify (Dev)
-        run: deploy.sh
+        run: ./deploy.sh
         env:
           AMPLIFY_ENV: dev
           AMPLIFY_APP_ID: ${{ secrets.AMPLIFY_APP_ID }}
@@ -94,9 +96,9 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.REGION }}
       - name: Set execute permission for deploy.sh
-        run: chmod +x deploy.sh
+        run: chmod +x ./deploy.sh
       - name: Deploy to AWS Amplify (Prod)
-        run: deploy.sh
+        run: ./deploy.sh
         env:
           AMPLIFY_ENV: prod
           AMPLIFY_APP_ID: ${{ secrets.AMPLIFY_APP_ID }}
