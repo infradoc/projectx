@@ -19,6 +19,14 @@ fi
 #    # amplify pull --appId "{ \"envName\": \"$AMPLIFY_ENV\", \"appId\": \"$AMPLIFY_APP_ID\" }" --yes
 # fi
 
+
+Initialize AWS Amplify if not already initialized
+if [ ! -d "amplify/.config" ]; then
+    echo "AWS Amplify is not initialized. Initializing..."
+    amplify init --amplify @envName=$AMPLIFY_ENV --yes
+fi
+
+
 # Deploy changes to the cloud
 echo "Deploying changes to the cloud..."
 if amplify push --appId "$AMPLIFY_APP_ID" --envName "$AMPLIFY_ENV" --yes; then
